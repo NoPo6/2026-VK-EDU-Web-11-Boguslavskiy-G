@@ -1,0 +1,30 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}Ask{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">New Question</p>
+            </li>
+        </ul>
+    </div>
+    <div class="content__center">
+</div>
+<div class="content__wrapper">
+    <p class="content__label">Title:</p>
+    <input type="text" class="form-control" placeholder="Заголовок (до 255 символов)" maxlength="255">
+
+    <p class="content__label">Text:</p>
+    <textarea class="form-control" rows="6" placeholder="Текст"></textarea>
+
+    <p class="content__label">Tags:</p>
+    <input type="text" class="form-control" placeholder="Теги через запятую">
+
+    <div></div>
+    <button type="button" class="btn btn-success" style="width: 70px;">ASK!</button>
+</div>
+{% endblock %}

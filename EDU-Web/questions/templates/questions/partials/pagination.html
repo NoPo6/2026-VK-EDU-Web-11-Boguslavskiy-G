@@ -1,0 +1,31 @@
+{% load static %}
+
+<div class="footer__pagination">
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group me-2" role="group" aria-label="First group">
+            {% with total=page_obj.paginator.num_pages current=page_obj.number %}
+                {% if total > 1 %}
+                    {% if total == 2 %}
+                        <a href="?page=1" class="btn btn-primary {% if current == 1 %}active{% endif %}">1</a>
+                        <a href="?page=2" class="btn btn-primary {% if current == 2 %}active{% endif %}">2</a>
+                    {% else %}
+                        {% if current == 1 %}
+                            <a href="?page=1" class="btn btn-primary active">1</a>
+                            <a href="?page=2" class="btn btn-primary">2</a>
+                            <a href="?page=3" class="btn btn-primary">3</a>
+                        {% elif current == total %}
+                            <a href="?page={{ total|add:"-2" }}" class="btn btn-primary">{{ total|add:"-2" }}</a>
+                            <a href="?page={{ total|add:"-1" }}" class="btn btn-primary">{{ total|add:"-1" }}</a>
+                            <a href="?page={{ total }}" class="btn btn-primary active">{{ total }}</a>
+                        {% else %}
+                            {# В середине: current-1, current, current+1 #}
+                            <a href="?page={{ current|add:"-1" }}" class="btn btn-primary">{{ current|add:"-1" }}</a>
+                            <a href="#" class="btn btn-primary active">{{ current }}</a>
+                            <a href="?page={{ current|add:"1" }}" class="btn btn-primary">{{ current|add:"1" }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}World Wide Wopros{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">New Questions</p>
+            </li>
+            <li>
+                <a href="{% url 'questions:hot' %}">Hot Questions</a>
+            </li>
+        </ul>
+    </div>
+    <div class="content__center">
+        <div class="content__cards">
+            {% for question in questions %}
+                <div class="content__card__grid">
+                    {% include 'questions/partials/question.html' %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'questions/partials/pagination.html' %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">Settings:</p>
+            </li>
+            <li>
+                <p id="main__titles">Chupapik</p>
+            </li>
+        </ul>
+    </div>
+    <div class="content__center">
+</div>
+<div class="content__wrapper" id="settings">
+    <p class="content__label">Login:</p>
+    <input type="text" class="form-control" value="dr_chupapik">
+
+    <p class="content__label">Email:</p>
+    <input type="text" class="form-control" value="chupapy@gmail.com">
+
+    <p class="content__label">NickName:</p>
+    <input type="text" class="form-control" value="Dr. Chupapik">
+
+    <p class="content__label">Upload avatar:</p>
+    <div class="content__avatar">
+        <img src="{%  static 'questions/img/avatar.jpg' %}"> 
+        <input type="file" class="form-control" id="inputGroupFile01">
+        <button type="button" class="btn btn-success" style="width: 70px; ">save</button>
+    </div>
+</div>
+{% endblock %}

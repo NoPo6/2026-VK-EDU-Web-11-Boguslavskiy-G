@@ -1,0 +1,33 @@
+{% extends 'questions/layout/base_unauthorized.html' %}
+{% load static %}
+
+{% block title %}World Wide Wopros{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">Log In</p>
+            </li>
+        </ul>
+    </div>
+    <div class="content__center">
+</div>
+<div class="content__wrapper" id="login">
+    <p class="content__label">Login:</p>
+    <input type="text" class="form-control" placeholder="Введите логин или Email">
+
+    <p class="content__label">Password:</p>
+    <input type="text" class="form-control" placeholder="Введите пароль">
+    
+    <div></div>
+    <p id="wrong__password">Sorry, wrong password!</p>
+
+    <div></div>
+    <div class="content__login">
+        <a href="#">Create new account</a>
+        <button type="button" class="btn btn-success" style="width: 70px; height: 38px;">log in</button>
+    </div>
+</div>
+{% endblock %}
