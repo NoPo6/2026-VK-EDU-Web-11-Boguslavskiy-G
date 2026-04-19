@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Wide Wopros</title>   
+    <link rel="icon" type="image/x-icon" href="static/img/icon.png">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header__container">
+
+            <input type="checkbox" id="user-toggle" hidden>
+
+            <nav class="header__nav">
+                <div class="header__elements">
+                    <img src="static/img/icon.png">
+
+                    <div style="position: relative; width: 100%;">
+                        <input type="text" class="form-control rounded-pill" placeholder="Поиск..." style="padding-right: 35px;">
+                        <button type="button" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 0; cursor: pointer; font-size: 1.2rem;">🔍</button>
+                    </div>
+
+                    <button type="button" class="btn btn-success">ASK!</button>
+                </div>
+
+                <div class="header__user__display">
+                    <label for="user-toggle">
+                        <img src="static/img/avatar.jpg">
+                        <!-- <img src="static/img/unauthorized.png"> -->
+                    </label>
+
+                    <div class="header__user__info">
+                        <p>Chupapik</p>
+                        <ul class="header__user__list">
+                            <li><a href="#">settings</a></li>
+                            <li><a href="#">log out</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- <div class="header__user__info">
+                        <ul class="header__user__list">
+                            <li><a href="#">log in</a></li>
+                            <li><a href="#">register</a></li>
+                        </ul>
+                    </div> -->
+
+                </div>
+            </nav>
+
+            <div class="user-dropdown">
+                <p>Chupapik</p>
+                <ul class="header__user__list">
+                    <li><a href="#">settings</a></li>
+                    <li><a href="#">log out</a></li>
+                </ul>
+            </div>
+
+            <!-- <div class="user-dropdown">
+                <ul class="header__user__list" id="unauthorized">
+                    <li><a href="#">log in</a></li>
+                    <li><a href="#">register</a></li>
+                </ul>
+            </div> -->
+
+        </div>
+    </header>
+<main class="main">
+    <article class="content">
+        
+    </article>
+    <aside class="sidebar">
+        <div class="sidebar__sections">
+            <div class="sidebar__popular__tags">
+                <p id="main__titles">Popular Tags</p>
+                <div>
+                    <a href="#">perl</a>
+                    <a href="#">python</a>
+                    <a href="#">TechnoPark</a>
+                    <a href="#">MySQL</a>
+                    <a href="#">django</a>
+                    <a href="#">Mail.Ru</a>
+                    <a href="#">Voloshin</a>
+                    <a href="#">Firefox</a>
+                </div>
+            </div>
+            <div class="sidebar__best__members">
+                <p id="main__titles">Best Members</p>
+                <ul>
+                    <li>
+                        <a href="#">Mr.Bober</a>
+                    </li>
+                    <li>
+                        <a href="#">Mr.Beast</a>
+                    </li>
+                    <li>
+                        <a href="#">Dr.Pepper</a>
+                    </li>
+                    <li>
+                        <a href="#">Cucumber Rick</a>
+                    </li>
+                    <li>
+                        <a href="#">Tarakanchik</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+</main>
+<footer>
+    
+</footer>
+</body>
+</html>
