@@ -1,0 +1,40 @@
+{% extends 'questions/layout/base_unauthorized.html' %}
+{% load static %}
+
+{% block title %}World Wide Wopros{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+<div>
+    <ul class="content__list">
+        <li>
+            <p id="main__titles">Registration</p>
+        </li>
+    </ul>
+</div>
+<div class="content__center">
+</div>
+<p id="email__error">Sorry, this email address allready register!</p>
+<div class="content__wrapper" id="register">
+<p class="content__label">Login:</p>
+<input type="text" class="form-control" placeholder="Введите логин">
+
+<p class="content__label">Email:</p>
+<input type="text" class="form-control" placeholder="Введите почту">
+
+<p class="content__label">NickName:</p>
+<input type="text" class="form-control" placeholder="Введите ник">
+
+<p class="content__label">Password:</p>
+<input type="text" class="form-control" placeholder="Введите пароль">
+
+<p class="content__label">Repeat password:</p>
+<input type="text" class="form-control" placeholder="Повторите пароль">
+
+<p class="content__label">Upload avatar:</p>
+<input type="file" class="form-control" id="inputGroupFile01">
+
+<div></div>
+<button type="button" class="btn btn-success" style="width: 70px;">register</button>
+</div>
+{% endblock %}

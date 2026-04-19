@@ -1,0 +1,29 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}Question{% endblock %}
+
+{% block content %}
+<div class="content__sections" id="content__questions">
+    <div class="content__center">
+        <div class="content__cards__questions">
+            <div class="content__card__grid" id="question-card">
+                {% include 'questions/partials/question.html' with question=curent_question %}
+            </div>
+
+            {% for question in questions %}
+                {% include 'questions/partials/answer.html' %}
+            {% endfor %}
+
+            <div class="content__answer"> 
+                <textarea class="form-control" rows="6" placeholder="Введите свой ответ!"></textarea> 
+                <button type="button" class="btn btn-success" style="width: 80px;">Answer</button> 
+            </div>
+        </div>  
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'questions/partials/pagination.html' %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}Tag{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">Tag: {{ tag_name }}</p>
+            </li>
+        </ul>
+    </div>
+    <div class="content__center">
+        <div class="content__cards">
+            {% for question in questions %}
+                <div class="content__card__grid">
+                    {% include 'questions/partials/question.html' %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'questions/partials/pagination.html' %}
+{% endblock %}
