@@ -1,0 +1,23 @@
+{% load static %}
+
+<div class="grid-item-1">
+    <img src="{%  static 'questions/img/avatar.jpg' %}">
+</div> 
+<div class="grid-item-2">
+    <a href="{% url 'questions:question' question_number=question.question_number %}">{{ question.title }}</a>
+    <p>{{ question.text }}</p>
+</div>  
+<div class="grid-item-3">
+    <input type="number" class="form-control" value="0" min="0" max="100" step="1" style="width: 75px; height: 40px">
+</div> 
+<div class="grid-item-4">
+    <div id="content__tags">
+        <p>Tags:</p>
+        <a href="{% url 'questions:tag' tag_name='Minecraft' %}">Minecraft</a>
+        <a href="{% url 'questions:tag' tag_name='Kopatel 3D' %}">Kopatel 3D</a>
+    </div>
+    <div>
+        <a href="{% url 'questions:question' question_number=question.question_number %}">{{ question.answers }}</a>
+        <p>{{ question.date }}</p>
+    </div>
+</div>

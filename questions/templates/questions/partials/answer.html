@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class="content__card__grid">
+    <div class="grid-item-1">
+        <img src="{% static 'questions/img/avatar.jpg' %}">
+    </div> 
+    <div class="grid-item-2">
+        <p>{{ question.text }}</p> 
+    </div>
+    <div class="grid-item-3">
+        <input type="number" class="form-control" value="0" min="0" max="100" step="1" style="width: 75px; height: 38px;">
+    </div> 
+    <div class="form-check card__check">
+        <div>
+            <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+            <label class="form-check-label" for="checkDefault">
+                Correct!
+            </label>
+        </div>
+        <p>{{ question.date }}</p>
+    </div>
+</div>
