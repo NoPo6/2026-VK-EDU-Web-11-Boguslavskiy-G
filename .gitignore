@@ -50,8 +50,6 @@ pythonenv*
 db.sqlite3
 *.sqlite3
 media/
-static/
-staticfiles/
 mediafiles/
 *.db
 
