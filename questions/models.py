@@ -2,6 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+
+# Менеджер моделей
+class ModelManager(models.Manager):
+    def get_new(self):
+        return self.select_related('author').prefetch_related('tags').order_by('-created_at')
+
+    def get_best(self):
+        return self.select_related('author').prefetch_related('tags').annotate(
+            likes_count=models.Count('likes')
+        ).order_by('-likes_count')
+
+    def get_by_tag(self, tag_name):
+        return self.select_related('author').prefetch_related('tags').filter(
+            tags__name=tag_name
+        ).order_by('-created_at')
+
+
 # Таблица с профилями
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -15,6 +32,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 # Таблица с тэгами 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -25,14 +43,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
-# Кастомный менеджер, в котором определяем типичные выборки (“лучшие” и “новые” вопросы).
-class QuestionManager(models.Manager):
-    def get_new(self):
-        return self.order_by('-created_at')
-
-    def get_best(self):
-        return self.annotate(likes_count=models.Count('questionlike')).order_by('-likes_count')
+    
 
 # Таблица вопросов
 class Question(models.Model):
@@ -42,7 +53,7 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     tags = models.ManyToManyField(Tag, related_name='questions', through='QuestionTag')
 
-    objects = QuestionManager()
+    objects = ModelManager()
 
     class Meta:
         verbose_name = 'Вопрос'
@@ -55,7 +66,8 @@ class Question(models.Model):
     def get_absolute_url(self):
         return reverse('question_detail', args=[self.pk])
 
-# Таблица ответов 
+
+# Таблица овтетов
 class Answer(models.Model):
     text = models.TextField(verbose_name='Текст ответа')
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
@@ -71,32 +83,39 @@ class Answer(models.Model):
     def __str__(self):
         return f'Ответ на "{self.question.title}"'
 
-# Таблица для связи юзера с его лайков вопроса
+
+# Таблица связи лайков вопросов и юзеров
 class QuestionLike(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='questionlike')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Лайк вопроса'
         verbose_name_plural = 'Лайки вопросов'
-        unique_together = ('question', 'user')   
+        constraints = [
+            models.UniqueConstraint(fields=['question', 'user'], name='unique_question_like')
+        ]
 
 
-# Таблица для связи юзера с его лайком ответа
+# Таблица связи лайков ответов и юзеров
 class AnswerLike(models.Model):
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='answerlike')
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Лайк ответа'
         verbose_name_plural = 'Лайки ответов'
-        unique_together = ('answer', 'user')
+        constraints = [
+            models.UniqueConstraint(fields=['answer', 'user'], name='unique_answer_like')
+        ]
 
 
-# Промежуточная таблица для ManyToMany
+# Таблица связи тегов и вопросов
 class QuestionTag(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('question', 'tag')
+        verbose_name = 'Тег вопроса'
+        verbose_name_plural = 'Теги вопросов'

@@ -1,49 +1,37 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from datetime import datetime
-
-QUESTIONS = [
-    {
-        'title': f'Question title{i}',
-        'text': f'Text {i}',
-        'answers': f'answers({100})',
-        'date': f'{datetime.now().strftime("%d.%m.%Y %H:%M")}',
-        'question_number': i,
-    }
-    for i in range(100)
-]
-
-# Create your views here.
-# отработка ошибок пагинации
-def paginate(objects_list, request, per_page = 20):
-    paginator = Paginator(objects_list, per_page)
-    page_number = request.GET.get('page', 1)
-    try:
-        page = paginator.page(page_number)
-    except PageNotAnInteger:
-        page = paginator.page(1)
-    except EmptyPage:
-        page = paginator.page(paginator.num_pages)
-    return page
+from django.shortcuts import render, get_object_or_404
+from .utils.pagination import paginate
+from .models import Question, Answer, Tag
 
 def index(request):
-    page_obj = paginate(QUESTIONS, request, per_page=20)
-    return render(request, 'questions/index.html', context={'questions': page_obj.object_list, 'page_obj': page_obj})
+    questions = Question.objects.get_new()
+    page_obj = paginate(questions, request)  
+    return render(request, 'questions/index.html', {'page_obj': page_obj})
 
 def hot(request):
-    page_obj = paginate(QUESTIONS, request, per_page=20)
-    return render(request, 'questions/hot.html', context={'questions': page_obj.object_list, 'page_obj': page_obj})
+    questions = Question.objects.get_best()
+    page_obj = paginate(questions, request)
+    return render(request, 'questions/hot.html', {'page_obj': page_obj})
 
-def question(request, question_number):
-    page_obj = paginate(QUESTIONS, request, per_page=20)
-    curent_question = QUESTIONS[int(question_number)]
-    return render(request, 'questions/question.html', context={'questions': page_obj.object_list, 'page_obj': page_obj, 
-                                                               'question_number': question_number, 'curent_question': curent_question})
+def question(request, question_id):
+    question = get_object_or_404(
+        Question.objects.select_related('author').prefetch_related('tags'),
+        pk=question_id
+    )
+    answers = Answer.objects.filter(question=question).select_related('author')
+    page_obj = paginate(answers, request)
+    return render(request, 'questions/question.html', {
+        'curent_question': question,
+        'answers': page_obj,
+    })
 
 def tag(request, tag_name):
-    page_obj = paginate(QUESTIONS, request, per_page=20)
-    return render(request, 'questions/tag.html', context={'questions': page_obj.object_list, 'page_obj': page_obj, 'tag_name': tag_name})
+    tag = get_object_or_404(Tag, name=tag_name)
+    questions = Question.objects.get_by_tag(tag.name)
+    page_obj = paginate(questions, request)
+    return render(request, 'questions/tag.html', {
+        'page_obj': page_obj,
+        'tag': tag,
+    })
 
 def login(request):
     return render(request, 'questions/login.html')

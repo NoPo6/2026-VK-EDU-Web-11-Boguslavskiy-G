@@ -4,7 +4,7 @@
     <img src="{%  static 'questions/img/avatar.jpg' %}">
 </div> 
 <div class="grid-item-2">
-    <a href="{% url 'questions:question' question_number=question.question_number %}">{{ question.title }}</a>
+    <a href="{% url 'questions:question' question_id=question.id %}">{{ question.title }}</a>
     <p>{{ question.text }}</p>
 </div>  
 <div class="grid-item-3">
@@ -17,7 +17,7 @@
         <a href="{% url 'questions:tag' tag_name='Kopatel 3D' %}">Kopatel 3D</a>
     </div>
     <div>
-        <a href="{% url 'questions:question' question_number=question.question_number %}">{{ question.answers }}</a>
-        <p>{{ question.date }}</p>
+        <a href="{% url 'questions:question' question_id=question.id %}"></a>
+        <p>{{ question.created_at }}</p>
     </div>
 </div>

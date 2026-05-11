@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-a4$p92-(cf6xy&l)%j3@8tzzbs%$5(t+o&e22!k*d=7#96y87p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "questions",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# INSTALLED_APPS += ['debug_toolbar']
+
+# MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+
+# INTERNAL_IPS = ['127.0.0.1']
 
 ROOT_URLCONF = "application.urls"
 
@@ -104,11 +111,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
