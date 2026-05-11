@@ -1,22 +1,63 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.db.models import Count
 
 
 # Менеджер моделей
 class ModelManager(models.Manager):
     def get_new(self):
-        return self.select_related('author').prefetch_related('tags').order_by('-created_at')
+        return (
+            self.select_related('author')
+            .prefetch_related('tags')
+            .annotate(
+                likes_count=Count('likes', distinct=True),
+                answers_count=Count('answers', distinct=True),
+            )
+            .order_by('-created_at')
+        )
 
     def get_best(self):
-        return self.select_related('author').prefetch_related('tags').annotate(
-            likes_count=models.Count('likes')
-        ).order_by('-likes_count')
+        return (
+            self.select_related('author')
+            .prefetch_related('tags')
+            .annotate(
+                likes_count=Count('likes', distinct=True),
+                answers_count=Count('answers', distinct=True),
+            )
+            .order_by('-likes_count')
+        )
 
     def get_by_tag(self, tag_name):
-        return self.select_related('author').prefetch_related('tags').filter(
-            tags__name=tag_name
-        ).order_by('-created_at')
+        return (
+            self.select_related('author')
+            .prefetch_related('tags')
+            .filter(tags__name=tag_name)
+            .annotate(
+                likes_count=Count('likes', distinct=True),
+                answers_count=Count('answers', distinct=True),
+            )
+            .order_by('-created_at')
+        )
+
+    def question_detailes(self):
+        return (
+            self.select_related('author')
+            .prefetch_related('tags')
+            .annotate(
+                likes_count=Count('likes', distinct=True),
+                answers_count=Count('answers', distinct=True),
+            )
+        )
+
+class AnswerManager(models.Manager):
+    def with_likes(self):
+        return (
+            self.select_related('question', 'author')
+            .annotate(
+                likes_count=Count('likes', distinct=True)
+            )
+        )
 
 
 # Таблица с профилями
@@ -74,6 +115,8 @@ class Answer(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answers')
     is_correct = models.BooleanField(default=False, verbose_name='Правильный ответ')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    objects = AnswerManager()
 
     class Meta:
         verbose_name = 'Ответ'

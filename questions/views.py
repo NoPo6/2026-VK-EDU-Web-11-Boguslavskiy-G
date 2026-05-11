@@ -12,13 +12,17 @@ def hot(request):
     page_obj = paginate(questions, request)
     return render(request, 'questions/hot.html', {'page_obj': page_obj})
 
+
 def question(request, question_id):
     question = get_object_or_404(
-        Question.objects.select_related('author').prefetch_related('tags'),
+        Question.objects.question_detailes(),
         pk=question_id
     )
-    answers = Answer.objects.filter(question=question).select_related('author')
+
+    answers = Answer.objects.with_likes().filter(question=question)
+
     page_obj = paginate(answers, request)
+
     return render(request, 'questions/question.html', {
         'curent_question': question,
         'answers': page_obj,
