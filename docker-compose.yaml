@@ -1,8 +1,24 @@
 services:
-  web: 
+  web:
     build: .
-    ports: 
+    ports:
       - "8000:8000"
-    
     volumes:
       - .:/app
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: django_db
+      DB_USER: german
+      DB_PASSWORD: qwerty
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: django_db
+      POSTGRES_USER: german
+      POSTGRES_PASSWORD: qwerty
+    ports:
+      - "5432:5432"

@@ -56,8 +56,8 @@ class Command(BaseCommand):
         self.stdout.write("Creating tags...")
 
         tags = [
-            Tag(name=f"tag_{i}")
-            for i in range(tags_count)
+            Tag(name=name)
+            for name in ["perl", "python", "TechnoPark", "MySQL", "django", "Mail.Ru", "Voloshin", "Firefox"]
         ]
 
         Tag.objects.bulk_create(tags, batch_size=5000)

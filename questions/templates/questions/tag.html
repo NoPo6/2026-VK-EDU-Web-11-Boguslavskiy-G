@@ -14,7 +14,7 @@
     </div>
     <div class="content__center">
         <div class="content__cards">
-            {% for question in questions %}
+            {% for question in page_obj %}
                 <div class="content__card__grid">
                     {% include 'questions/partials/question.html' %}
                 </div>
