@@ -17,9 +17,9 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env_file = '.env.docker' if os.environ.get('DOCKER_ENV') else '.env.local'
 
-load_dotenv(BASE_DIR / env_file)
+if not os.environ.get('DOCKER_ENV'):
+    load_dotenv(os.path.join(BASE_DIR, '.env.local'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -103,14 +103,13 @@ WSGI_APPLICATION = "application.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
