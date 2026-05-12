@@ -90,8 +90,8 @@ class Tag(models.Model):
 class Question(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст вопроса')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questions')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questions', db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания', db_index=True)
     tags = models.ManyToManyField(Tag, related_name='questions', through='QuestionTag')
 
     objects = ModelManager()
@@ -111,10 +111,10 @@ class Question(models.Model):
 # Таблица овтетов
 class Answer(models.Model):
     text = models.TextField(verbose_name='Текст ответа')
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answers')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers', db_index=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answers', db_index=True)
     is_correct = models.BooleanField(default=False, verbose_name='Правильный ответ')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания', db_index=True)
 
     objects = AnswerManager()
 
@@ -129,8 +129,8 @@ class Answer(models.Model):
 
 # Таблица связи лайков вопросов и юзеров
 class QuestionLike(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
 
     class Meta:
         verbose_name = 'Лайк вопроса'
@@ -142,8 +142,8 @@ class QuestionLike(models.Model):
 
 # Таблица связи лайков ответов и юзеров
 class AnswerLike(models.Model):
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
 
     class Meta:
         verbose_name = 'Лайк ответа'
@@ -155,8 +155,8 @@ class AnswerLike(models.Model):
 
 # Таблица связи тегов и вопросов
 class QuestionTag(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, db_index=True)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, db_index=True)
 
     class Meta:
         unique_together = ('question', 'tag')

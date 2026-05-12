@@ -84,34 +84,19 @@
             <div class="sidebar__popular__tags">
                 <p id="main__titles">Popular Tags</p>
                 <div>
-                    <a href="{% url 'questions:tag' tag_name='perl' %}">perl</a>
-                    <a href="{% url 'questions:tag' tag_name='python' %}">python</a>
-                    <a href="{% url 'questions:tag' tag_name='TechnoPark' %}">TechnoPark</a>
-                    <a href="{% url 'questions:tag' tag_name='MySQL' %}">MySQL</a>
-                    <a href="{% url 'questions:tag' tag_name='django' %}">django</a>
-                    <a href="{% url 'questions:tag' tag_name='Mail.Ru' %}">Mail.Ru</a>
-                    <a href="{% url 'questions:tag' tag_name='Voloshin' %}">Voloshin</a>
-                    <a href="{% url 'questions:tag' tag_name='Firefox' %}">Firefox</a>
+                    {% for tag in tags|slice:":20" %}
+                        <a href="{% url 'questions:tag' tag_name=tag.name %}">{{ tag.name }}</a>
+                    {% endfor %}
                 </div>
             </div>
             <div class="sidebar__best__members">
                 <p id="main__titles">Best Members</p>
                 <ul>
-                    <li>
-                        <a href="#">Mr.Bober</a>
-                    </li>
-                    <li>
-                        <a href="#">Mr.Beast</a>
-                    </li>
-                    <li>
-                        <a href="#">Dr.Pepper</a>
-                    </li>
-                    <li>
-                        <a href="#">Cucumber Rick</a>
-                    </li>
-                    <li>
-                        <a href="#">Tarakanchik</a>
-                    </li>
+                    {% for user in users|slice:":10" %}
+                        <li>
+                            <a href="#">{{ user.nickname }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>

@@ -23,7 +23,7 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username', 'email', 'profile__nickname')
 
     def get_nickname(self, obj):
-        return obj.profile.nickname
+        return obj.profile.nickname if hasattr(obj, 'profile') else ''
     
     get_nickname.short_description = 'Никнейм'
     get_nickname.admin_order_field = 'profile__nickname'
@@ -45,7 +45,6 @@ class ProfileAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'question_count')
     search_fields = ('name',)
-    list_filter = ('name',)
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(q_count=Count('questions'))
@@ -74,7 +73,9 @@ class QuestionAdmin(admin.ModelAdmin):
     raw_id_fields = ('author',)
 
     def get_queryset(self, request):
-        return super().get_queryset(request).annotate(likes_cnt=Count('likes'))
+        return super().get_queryset(request).annotate(
+            likes_cnt=Count('likes')
+        ).prefetch_related('tags')
 
     def tags_list(self, obj):
         return ', '.join([t.name for t in obj.tags.all()])
@@ -105,7 +106,6 @@ class AnswerAdmin(admin.ModelAdmin):
 class QuestionLikeAdmin(admin.ModelAdmin):
     list_display = ('question', 'user')
     search_fields = ('question__title', 'user__username')
-    list_filter = ('question', 'user')
     raw_id_fields = ('question', 'user')
 
 
@@ -113,7 +113,6 @@ class QuestionLikeAdmin(admin.ModelAdmin):
 class AnswerLikeAdmin(admin.ModelAdmin):
     list_display = ('answer', 'user')
     search_fields = ('answer__text', 'user__username')
-    list_filter = ('answer', 'user')
     raw_id_fields = ('answer', 'user')
 
 

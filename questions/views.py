@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from .utils.pagination import paginate
-from .models import Question, Answer, Tag
+from .models import Question, Answer, Tag, Profile
 
 def index(request):
     questions = Question.objects.get_new()
     page_obj = paginate(questions, request)  
-    return render(request, 'questions/index.html', {'page_obj': page_obj})
+    return render(request, 'questions/index.html', {
+        'page_obj': page_obj, 
+        })
 
 def hot(request):
     questions = Question.objects.get_best()
@@ -20,7 +22,6 @@ def question(request, question_id):
     )
 
     answers = Answer.objects.with_likes().filter(question=question)
-
     page_obj = paginate(answers, request)
 
     return render(request, 'questions/question.html', {

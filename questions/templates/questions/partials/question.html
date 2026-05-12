@@ -13,8 +13,9 @@
 <div class="grid-item-4">
     <div id="content__tags">
         <p>Tags:</p>
-        <a href="{% url 'questions:tag' tag_name='Minecraft' %}">Minecraft</a>
-        <a href="{% url 'questions:tag' tag_name='Kopatel 3D' %}">Kopatel 3D</a>
+        {% for tag in question.tags.all|slice:":3" %}
+            <a href="{% url 'questions:tag' tag_name=tag.name %}">{{ tag.name }}</a>
+        {% endfor %}
     </div>
     <div>
         <a href="{% url 'questions:question' question_id=question.id %}">answers({{ question.answers_count }})</a>

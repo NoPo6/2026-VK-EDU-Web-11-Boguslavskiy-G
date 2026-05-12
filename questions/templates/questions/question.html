@@ -10,11 +10,15 @@
             <div class="content__card__grid" id="question-card">
                 {% include 'questions/partials/question.html' with question=curent_question %}
             </div>
-
-            {% for answer in answers %}
-                {% include 'questions/partials/answer.html' %}
-            {% endfor %}
-
+            {% if answers %} 
+                {% for answer in answers %}
+                    {% include 'questions/partials/answer.html' %}
+                {% endfor %}
+            {% else %}
+                <div style="display: flex; justify-content: center">
+                    <p style="margin-bottom: 0px; ">На данный вопрос еще нет ответов!</p>
+                </div>
+            {% endif %}
             <div class="content__answer"> 
                 <textarea class="form-control" rows="6" placeholder="Введите свой ответ!"></textarea> 
                 <button type="button" class="btn btn-success" style="width: 80px;">Answer</button> 

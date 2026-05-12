@@ -17,11 +17,17 @@
     </div>
     <div class="content__center">
         <div class="content__cards">
-            {% for question in page_obj %}
-                <div class="content__card__grid">
-                    {% include 'questions/partials/question.html' %}
+            {% if page_obj %}
+                {% for question in page_obj %}
+                    <div class="content__card__grid">
+                        {% include 'questions/partials/question.html' %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="display: flex; justify-content: center">
+                    <p style="margin-bottom: 0px; ">Пока нет ни одного вопроса!</p>
                 </div>
-            {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>

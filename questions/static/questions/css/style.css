@@ -174,7 +174,7 @@ body {
     justify-content: center;
     gap: 30px;   
     padding-top: 20px;  
-    max-width: 900px;                        
+    width: 900px;                        
 }
 
 .content__card__grid {
