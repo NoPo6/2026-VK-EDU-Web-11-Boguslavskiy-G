@@ -1,0 +1,71 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}Ask{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">New Question</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content__center"></div>
+
+    <div class="content__wrapper">
+        <form method="post" style="display:contents;">
+            <span style="display:none;">{% csrf_token %}</span>
+
+            <p class="content__label">Title:</p>
+            {% if user.is_authenticated %}
+                <span>
+                    {{ form.title }}
+                    {% if form.title.errors %}<span class="error">{{ form.title.errors }}</span>{% endif %}
+                </span>
+            {% else %}
+                <span>
+                    <input type="text" class="form-control" placeholder="Заголовок (до 255 символов)" disabled
+                        title="Войдите, чтобы задать вопрос">
+                </span>
+            {% endif %}
+
+            <p class="content__label">Text:</p>
+            {% if user.is_authenticated %}
+                <span>
+                    {{ form.text }}
+                    {% if form.text.errors %}<span class="error">{{ form.text.errors }}</span>{% endif %}
+                </span>
+            {% else %}
+                <span>
+                    <textarea class="form-control" rows="6" placeholder="Текст" disabled
+                        title="Войдите, чтобы задать вопрос"></textarea>
+                </span>
+            {% endif %}
+
+            <p class="content__label">Tags:</p>
+            {% if user.is_authenticated %}
+                <span>
+                    {{ form.tags_str }}
+                    {% if form.tags_str.errors %}<span class="error">{{ form.tags_str.errors }}</span>{% endif %}
+                </span>
+            {% else %}
+                <span>
+                    <input type="text" class="form-control" placeholder="Теги через запятую" disabled
+                        title="Войдите, чтобы задать вопрос">
+                </span>
+            {% endif %}
+
+            <div></div>
+            {% if user.is_authenticated %}
+                <button type="submit" class="btn btn-success" style="width: 70px;">ASK!</button>
+            {% else %}
+                <button type="button" class="btn btn-success" style="width: 70px;" disabled
+                    title="Войдите, чтобы задать вопрос">ASK!</button>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

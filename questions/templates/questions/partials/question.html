@@ -1,0 +1,40 @@
+{% load static %}
+
+<div class="grid-item-1">
+    <img src="{% static 'questions/img/avatar.jpg' %}" alt="avatar">
+</div> 
+<div class="grid-item-2">
+    <a href="{% url 'questions:question' question_id=question.id %}">{{ question.title }}</a>
+    <p>{{ question.text }}</p>
+</div>  
+<div class="grid-item-3">
+    {% if user.is_authenticated %}
+        <form action="{% url 'questions:question_like' question_id=question.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button type="submit" class="btn btn-outline-primary btn-sm"
+                    style="width:75px; height:40px; font-weight:bold;"
+                    title="Поставить лайк">
+                👍 {{ question.likes_count }}
+            </button>
+        </form>
+    {% else %}
+        <button class="btn btn-outline-primary btn-sm" disabled
+                style="width:75px; height:40px;"
+                title="Войдите, чтобы поставить лайк">
+            👍 {{ question.likes_count }}
+        </button>
+    {% endif %}
+</div> 
+<div class="grid-item-4">
+    <div id="content__tags">
+        <p>Tags:</p>
+        {% for tag in question.tags.all|slice:":3" %}
+            <a href="{% url 'questions:tag' tag_name=tag.name %}">{{ tag.name }}</a>
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{% url 'questions:question' question_id=question.id %}">answers({{ question.answers_count }})</a>
+        <p>{{ question.created_at }}</p>
+    </div>
+</div>
