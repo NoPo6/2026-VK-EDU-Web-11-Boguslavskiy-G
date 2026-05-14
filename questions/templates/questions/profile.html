@@ -1,0 +1,48 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">Profile</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content__center"></div>
+
+    <div class="content__wrapper" id="settings">
+        <form method="post" enctype="multipart/form-data" style="display:contents;">
+            <span style="display:none;">{% csrf_token %}</span>
+
+            <p class="content__label">Email:</p>
+            <span>
+                {{ form.email }}
+                {% if form.email.errors %}<span class="error">{{ form.email.errors }}</span>{% endif %}
+            </span>
+
+            <p class="content__label">NickName:</p>
+            <span>
+                {{ form.nickname }}
+                {% if form.nickname.errors %}<span class="error">{{ form.nickname.errors }}</span>{% endif %}
+            </span>
+
+            <p class="content__label">Avatar:</p>
+            <span>
+                {{ form.avatar }}
+                {% if form.avatar.errors %}<span class="error">{{ form.avatar.errors }}</span>{% endif %}
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="avatar" style="width: 100px; height: 100px; border-radius: 50%;">
+                {% endif %}
+            </span>
+
+            <div></div>
+            <button type="submit" class="btn btn-success" style="width: 80px;">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

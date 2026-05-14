@@ -1,0 +1,52 @@
+{% extends 'questions/layout/base_unauthorized.html' %}
+{% load static %}
+
+{% block title %}World Wide Wopros{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">Log In</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content__center"></div>
+
+    <div class="content__wrapper" id="login">
+        <form method="post" style="display:contents;">
+            <span style="display:none;">{% csrf_token %}</span>
+            <input type="hidden" name="next" value="{{ request.GET.next }}" style="display:none;">
+
+            <p class="content__label">Login:</p>
+            <span>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <span class="error">{{ form.username.errors }}</span>
+                {% endif %}
+            </span>
+
+            <p class="content__label">Password:</p>
+            <span>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <span class="error">{{ form.password.errors }}</span>
+                {% endif %}
+            </span>
+
+            <div></div>
+            <div>
+                <p id="wrong__password">{{ error }}</p>
+            </div>
+
+            <div></div>
+            <div class="content__login">
+                <a href="{% url 'questions:signup' %}">Create new account</a>
+                <button type="submit" class="btn btn-success" style="width: 70px; height: 38px;">log in</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

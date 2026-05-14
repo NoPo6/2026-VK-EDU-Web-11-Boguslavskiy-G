@@ -35,40 +35,32 @@ dmypy.json
 .pytype/
 
 # Виртуальные окружения
-.env
 .venv/
 venv/
 ENV/
-env.bak/
+env/
 venv.bak/
-pythonenv*
-.env/
-.env.*
-!.env.example
+pythonenv*/
 
-# Django специфичное
+# Django database 
 db.sqlite3
 *.sqlite3
+*.db
+
+# Медиа 
 media/
-static/
-staticfiles/
 mediafiles/
-*.db
 
-# Логи и базы данных
+# Логи
 *.log
-*.db
-*.sqlite
-*.sqlite3
-
-# Временные файлы
-*.tmp
-*.temp
-*.bak
-*.swp
 
 # Переменные окружения
 .env
 .env.local
-.env.production
-.env.development
+.env.docker
+
+# пример конфигурации
+!.env.example
+
+# Django migrations cache
+**/migrations/__pycache__/

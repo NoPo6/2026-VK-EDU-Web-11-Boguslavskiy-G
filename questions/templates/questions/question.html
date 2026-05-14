@@ -1,0 +1,51 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}Question{% endblock %}
+
+{% block content %}
+<div class="content__sections" id="content__questions">
+    <div class="content__center">
+        <div class="content__cards__questions">
+            <div class="content__card__grid" id="question-card">
+                {% include 'questions/partials/question.html' with question=curent_question %}
+            </div>
+            {% if answers %} 
+                {% for answer in answers %}
+                    {% include 'questions/partials/answer.html' %}
+                {% endfor %}
+            {% else %}
+                <div style="display: flex; justify-content: center">
+                    <p style="margin-bottom: 0px; ">На данный вопрос еще нет ответов!</p>
+                </div>
+            {% endif %}
+            <div class="content__answer">
+                {% if user.is_authenticated %}
+                    <form method="post" style="display:contents;">
+                        {% csrf_token %}
+                        {{ form.text }}
+                        {% if form.text.errors %}
+                            <span class="error">{{ form.text.errors }}</span>
+                        {% endif %}
+                        <button type="submit" class="btn btn-success" style="width: 80px;">Answer</button>
+                    </form>
+                {% else %}
+                    <textarea
+                        class="form-control"
+                        rows="6"
+                        placeholder="Введите свой ответ!"
+                        disabled
+                        title="Войдите, чтобы ответить"
+                    ></textarea>
+                    <button type="button" class="btn btn-success" style="width: 80px;" disabled
+                        title="Войдите, чтобы ответить">Answer</button>
+                {% endif %}
+            </div>
+        </div>  
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'questions/partials/pagination.html' %}
+{% endblock %}

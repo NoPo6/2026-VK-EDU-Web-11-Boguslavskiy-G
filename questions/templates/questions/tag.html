@@ -1,0 +1,35 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block title %}Tag{% endblock %}
+
+{% block content %}
+<div class="content__sections">
+    <div>
+        <ul class="content__list">
+            <li>
+                <p id="main__titles">Tag: {{ tag }}</p>
+            </li>
+        </ul>
+    </div>
+    <div class="content__center">
+        <div class="content__cards">
+            {% if page_obj %}
+                {% for question in page_obj %}
+                    <div class="content__card__grid">
+                        {% include 'questions/partials/question.html' %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="display: flex; justify-content: center;">
+                    <p style="margin-bottom: 0px;">Пока нет ни одного вопроса!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'questions/partials/pagination.html' %}
+{% endblock %}
